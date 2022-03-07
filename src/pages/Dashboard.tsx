@@ -15,7 +15,10 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { FirstDataRenderedEvent } from "ag-grid-community";
 import { GridButton } from "../components/GridButton";
-import { Button, Select } from "@material-ui/core";
+import { Button, Grid, Select } from "@material-ui/core";
+import Search from "@material-ui/icons/Search";
+import { AdvanceSearchDialog } from "../components/AdvanceSearchDialog";
+import { Refresh } from "@material-ui/icons";
 
 export function Dashboard() {
   const history = useHistory();
@@ -26,6 +29,7 @@ export function Dashboard() {
   const [gridApi, setGridApi] = useState<any>(null);
   const [currencyCodes, setCurrencyCodes] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const [columnDefs] = useState([
     { field: "name", headerName: "Company Name" },
@@ -176,11 +180,47 @@ export function Dashboard() {
     setSelectedCurrency(event.target.value);
   };
 
+  const handleSearch = () => {
+    setOpenDialog(true);
+  };
+
+  const handleAdvanceSearch = (params: any) => {
+    const searchParams = { ...params, userId: getUserId() };
+    console.log(searchParams);
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(searchParams),
+    };
+    fetch(`http://localhost:9191/v1/company/advance-search`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        let tempData: any = [];
+        data.forEach((row: any) => {
+          const findRow = rowData.filter(
+            (existingRow) => existingRow["shortName"] === row["shortName"]
+          );
+          tempData.push(findRow[0]);
+        });
+        setRowData(tempData);
+        setChanged(changed + 1);
+      });
+  };
+
+  const handleResetSearch = () => {
+    history.push("/login");
+  };
+
   return (
     <div>
-      <div
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <AdvanceSearchDialog
+          open={openDialog}
+          handleClose={() => setOpenDialog(false)}
+          search={handleAdvanceSearch}
+        />
+        <h1 style={{marginLeft: 20}}>Welcome {isUserLoggedIn()}!</h1>
         <Button
           variant="contained"
           style={{ margin: 20 }}
@@ -190,6 +230,7 @@ export function Dashboard() {
         </Button>
         <Button
           variant="outlined"
+          color="secondary"
           style={{ margin: 20 }}
           onClick={handleLogout}
         >
@@ -197,10 +238,38 @@ export function Dashboard() {
         </Button>
       </div>
 
+      <Grid container style={{ margin: 20 }}>
+        <Grid item xs={2}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleSearch}
+            endIcon={<Search />}
+          >
+            Advance Search
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleResetSearch}
+            endIcon={<Refresh />}
+          >
+            Reset Search
+          </Button>
+        </Grid>
+      </Grid>
+
       <div
-        style={{ display: "flex", justifyContent: "space-between", margin: 20 }}
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: 20,
+          alignItems: "center",
+        }}
       >
-        <div>Welcome {isUserLoggedIn()}!</div>
+        
         <Select value={selectedCurrency} onChange={handleCurrencyChange}>
           {selectCurrencyValues}
         </Select>
