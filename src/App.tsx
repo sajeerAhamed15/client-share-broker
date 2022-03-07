@@ -5,6 +5,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { SignUp } from "./pages/SignUp";
 import { Trade } from "./pages/Trade";
 import { Transaction } from "./pages/Transaction";
+import { CompanyDetails } from "./pages/CompanyDetails";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
         </Route>
         <Route path="/transaction">
           <Transaction />
+        </Route>
+        <Route path="/company">
+          <CompanyDetails />
         </Route>
       </Switch>
     </Router>

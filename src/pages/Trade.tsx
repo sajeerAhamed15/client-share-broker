@@ -58,12 +58,12 @@ export function Trade() {
     if (!currCompany) {
       history.push("/dashboard");
     } else {
-      setRowData([JSON.parse(currCompany)]);
-      setType(JSON.parse(currCompany)["type"]);
-      setPriceInUSD(JSON.parse(currCompany)["pricePerShareInUSD"]);
-      setSelectedCurrency(JSON.parse(currCompany)["currency"]);
-      setCompanyCode(JSON.parse(currCompany)["shortName"]);
-      setPricePerShare(JSON.parse(currCompany)["pricePerShare"]);
+      setRowData([currCompany]);
+      setType(currCompany["type"]);
+      setPriceInUSD(currCompany["pricePerShareInUSD"]);
+      setSelectedCurrency(currCompany["currency"]);
+      setCompanyCode(currCompany["shortName"]);
+      setPricePerShare(currCompany["pricePerShare"]);
     }
   }, []);
 
@@ -116,6 +116,10 @@ export function Trade() {
     saveCurrentCompany(null);
     history.push("/dashboard");
   };
+
+  const onCompanyTweetsPressed = () => {
+    history.push("/company");
+  }
 
   const onFirstDataRendered = (event: FirstDataRenderedEvent) => {
     event.api.sizeColumnsToFit();
@@ -175,6 +179,7 @@ export function Trade() {
         </DialogActions>
       </Dialog>
       <button onClick={onBackPressed}>Back</button>
+      <button style={{ marginLeft: 20 }} onClick={onCompanyTweetsPressed}>Show Recent tweets</button>
       <div>
         <div
           style={{

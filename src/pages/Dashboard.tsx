@@ -207,7 +207,7 @@ export function Dashboard() {
       </div>
       <div
         className="ag-theme-alpine"
-        style={{ height: 700, width: "auto", margin: 20 }}
+        style={{ height: 600, width: "auto", margin: 20 }}
       >
         <AgGridReact
           defaultColDef={{
