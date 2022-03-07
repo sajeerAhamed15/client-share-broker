@@ -218,6 +218,7 @@ export function Dashboard() {
             editable: false,
             sortable: true,
           }}
+          enableCellChangeFlash={true}
           statusBar={{
             statusPanels: [
               {

@@ -202,6 +202,7 @@ export function Trade() {
               resizable: true,
               editable: false,
             }}
+            enableCellChangeFlash={true}
             rowSelection="single"
             rowData={rowData}
             columnDefs={columnDefs}
