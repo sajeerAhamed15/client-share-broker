@@ -5,6 +5,7 @@ import { isUserLoggedIn, saveUser } from "../utils/UserUtils";
 export function Login() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState(false);
   const history = useHistory();
 
   const handleSubmit = (event: any) => {
@@ -19,18 +20,21 @@ export function Login() {
       .then((res) => {
         console.log(res);
         saveUser(res);
-        history.push("/dashboard")
+        history.push("/dashboard");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        setError(true);
+      });
     event.preventDefault();
   };
 
   useEffect(() => {
     const isLoggedIn = isUserLoggedIn();
     if (isLoggedIn) {
-      history.push("/dashboard")
+      history.push("/dashboard");
     }
-  }, [ history ])
+  }, [history]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -44,8 +48,8 @@ export function Login() {
         onChange={(e) => setUsername(e.target.value)}
         required
       />
-      <br/>
-      <br/>
+      <br />
+      <br />
       <label>Password:</label>
       <input
         name="password"
@@ -54,11 +58,16 @@ export function Login() {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <br/>
-          <br/>
+      <br />
+      <br />
+      {error && <p style={{ color: 'red' }}>Authentication Error. Please try again</p>}
       <button>Login</button>
-      <br/>
+      <br />
+      <br />
       <Link to="/sign-up">Click here to Create an account</Link>
+      <br />
+      <br />
+      <Link to="/admin">Click here to go to Admin portal</Link>
     </form>
   );
 }

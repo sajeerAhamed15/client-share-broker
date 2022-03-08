@@ -6,6 +6,7 @@ import { SignUp } from "./pages/SignUp";
 import { Trade } from "./pages/Trade";
 import { Transaction } from "./pages/Transaction";
 import { CompanyDetails } from "./pages/CompanyDetails";
+import { AdminDashboard } from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/company">
           <CompanyDetails />
+        </Route>
+        <Route path="/admin">
+          <AdminDashboard />
         </Route>
       </Switch>
     </Router>
