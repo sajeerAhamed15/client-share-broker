@@ -19,7 +19,7 @@ export function SignUp() {
       .then((res) => {
         console.log(res);
         saveUser(res);
-        history.push("/dashboard")
+        history.push("/dashboard");
       })
       .catch((e) => console.log(e));
     event.preventDefault();
@@ -28,37 +28,50 @@ export function SignUp() {
   useEffect(() => {
     const isLoggedIn = isUserLoggedIn();
     if (isLoggedIn) {
-      history.push("/dashboard")
+      history.push("/dashboard");
     }
-  }, [ history ])
+  }, [history]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Create a new account</h1>
-
-      <label>Type a Unique Username:</label>
-      <input
-        name="username"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <br/>
-      <br/>
-      <label>Password:</label>
-      <input
-        name="password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <br/>
-      <br/>
-      <button>Create New User</button>
-      <br/>
-      <Link to="/">Existing User?</Link>
-    </form>
+    <div
+      style={{
+        textAlign: "center",
+        marginTop: 200,
+        backgroundSize: "contain",
+        backgroundImage: `url('https://thumbs.dreamstime.com/b/grey-color-trade-chart-financial-market-vector-illustration-white-background-forex-trading-graphic-design-concept-142047484.jpg')`,
+      }}
+    >
+      <form onSubmit={handleSubmit}>
+        <br />
+        <h1>Create a new account</h1>
+        <label>Type a Unique Username:</label>
+        <input
+          name="username"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <br />
+        <br />
+        <label>Password:</label>
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <br />
+        <br />
+        <button>Create New User</button>
+        <br />
+        <br />
+        <Link to="/">Existing User?</Link>
+        <br />
+        <br />
+        <br />
+      </form>
+    </div>
   );
 }
